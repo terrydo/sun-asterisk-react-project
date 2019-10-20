@@ -13,6 +13,8 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import { Link } from 'react-router-dom';
+import routes from 'app-routes';
 import makeSelectAuthenticationPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -72,14 +74,9 @@ export function AuthenticationPage({ dispatchLogin }) {
             />
           </div>
           <div className="form-group form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="exampleCheck1"
-            />
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Remember me?
-            </label>
+            <Link to={routes.register}>
+              Are you new? Click here to register
+            </Link>
           </div>
           <button
             type="button"

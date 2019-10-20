@@ -7,14 +7,12 @@
 
 import React from 'react';
 import withAuthenticate from 'withAuthenticate';
-import HeaderContainer from '../HeaderContainer';
+import HeaderContainer from 'containers/HeaderContainer';
 
-const HomePage = () => {
-  return (
-    <>
-      <HeaderContainer />
-    </>
-  );
-};
+const HomePage = () => (
+  <>
+    <HeaderContainer />
+  </>
+);
 
 export default withAuthenticate(HomePage);

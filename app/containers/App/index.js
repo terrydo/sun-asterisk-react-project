@@ -13,6 +13,9 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import AuthenticationPage from 'containers/AuthenticationPage/Loadable';
+import RegisterPage from 'containers/RegisterPage/Loadable';
+
+import routes from 'app-routes';
 
 // eslint-disable-next-line no-unused-vars
 import GlobalStyle from 'assets/scss/global.scss';
@@ -22,8 +25,9 @@ export default function App() {
   return (
     <>
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/login" component={AuthenticationPage} />
+        <Route exact path={routes.home} component={HomePage} />
+        <Route path={routes.login} component={AuthenticationPage} />
+        <Route path={routes.register} component={RegisterPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </>

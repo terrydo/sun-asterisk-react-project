@@ -25,11 +25,7 @@ export function HeaderContainer({ headerContainer }) {
   useInjectReducer({ key: 'headerContainer', reducer });
   useInjectSaga({ key: 'headerContainer', saga });
 
-  const img = movies
-    ? process.env.IMAGE_HOSTING + movies[0].backdrop_path
-    : demoBg;
-
-  return <RenderedHeader backgroundImage={img} />;
+  return <RenderedHeader movies={movies} />;
 }
 
 const mapStateToProps = createStructuredSelector({
