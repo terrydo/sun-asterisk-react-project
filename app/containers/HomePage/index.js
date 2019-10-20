@@ -6,13 +6,15 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import withAuthenticate from 'withAuthenticate';
+import HeaderContainer from '../HeaderContainer';
 
-export default function HomePage() {
+const HomePage = () => {
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <>
+      <HeaderContainer />
+    </>
   );
-}
+};
+
+export default withAuthenticate(HomePage);
