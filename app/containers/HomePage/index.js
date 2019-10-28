@@ -8,10 +8,12 @@
 import React from 'react';
 import withAuthenticate from 'withAuthenticate';
 import HeaderContainer from 'containers/HeaderContainer';
+import HomeMoviesWithFilters from 'containers/HomeMoviesWithFilters';
 
 const HomePage = () => (
   <>
     <HeaderContainer />
+    <HomeMoviesWithFilters />
   </>
 );
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
@@ -47,12 +47,30 @@ export const WatchMe = styled.a`
   }
 `;
 
+export const CarouselIndicator = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(50%);
+`;
+
+export const CarouselIndicatorItem = styled.div`
+  position: relative;
+  cursor: pointer;
+`;
+
+export const CarouselIndicatorMovieName = styled.div`
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  color: ${props => props.theme.color.pureWhite};
+`;
+
 const calcHeight = window.innerHeight * 0.625;
 
 function renderMovies(movies) {
-  const featuredMovies = movies.slice(0, 3);
-
-  return featuredMovies.map(movie => (
+  return movies.map(movie => (
     <Carousel.Item style={{ height: calcHeight }}>
       <img
         className="d-block w-100"
@@ -88,12 +106,48 @@ function renderMovies(movies) {
   ));
 }
 
+function renderIndicators(movies, setCurrentSlide) {
+  console.log(movies);
+  return (
+    <CarouselIndicator>
+      <div className="container">
+        <div className="row">
+          {movies.map((movie, idx) => (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <div className="col col-md-4" onClick={() => setCurrentSlide(idx)}>
+              <CarouselIndicatorItem>
+                <img
+                  src={process.env.IMAGE_THUMB_HOSTING + movie.backdrop_path}
+                  alt={movie.title}
+                  className="rounded"
+                />
+                <CarouselIndicatorMovieName>
+                  {movie.title}
+                </CarouselIndicatorMovieName>
+              </CarouselIndicatorItem>
+            </div>
+          ))}
+        </div>
+      </div>
+    </CarouselIndicator>
+  );
+}
+
 export function RenderedHeader({ movies }) {
+  const [index, setIndex] = useState(0);
+
   if (!movies) return '';
+
+  const featuredMovies = movies.slice(0, 3);
 
   return (
     <Header>
-      <Carousel controls={false}>{renderMovies(movies)}</Carousel>
+      <div style={{ position: 'relative' }}>
+        <Carousel controls={false} indicators={false} activeIndex={index}>
+          {renderMovies(featuredMovies)}
+        </Carousel>
+        {renderIndicators(featuredMovies, setIndex)}
+      </div>
       <div className="container">
         <RenderedNavbar />
       </div>
