@@ -4,3 +4,19 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/**
+ * Rewrite plugins
+ */
+  .slick-list {
+    overflow: visible;
+  }
+  .slick-initialized {
+    .slick-slide {
+      transition: 0.25s opacity;
+      opacity: 0.1;
+      &.slick-active {
+        opacity: 1;
+      }
+    }
+  }

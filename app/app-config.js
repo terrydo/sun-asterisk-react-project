@@ -5,6 +5,7 @@ export default {
       white: '#fafafa',
       main: '#f80a0c',
       textGrey: '#454545',
+      black: '#222',
     },
   },
 };

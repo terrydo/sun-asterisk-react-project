@@ -35,7 +35,7 @@ export const SlideGenre = styled.small`
   margin-right: 20px;
 `;
 
-export const WatchMe = styled.a`
+export const WatchMe = styled.span`
   margin-top: 15px;
   display: inline-block;
   padding: 8px 26px;
@@ -73,7 +73,7 @@ const calcHeight =
 
 function renderMovies(movies) {
   return movies.map(movie => (
-    <Carousel.Item style={{ height: calcHeight }}>
+    <Carousel.Item key={movie.id} style={{ height: calcHeight }}>
       <img
         className="d-block w-100"
         src={process.env.IMAGE_HOSTING + movie.backdrop_path}
@@ -96,12 +96,8 @@ function renderMovies(movies) {
           ))}
         </p>
 
-        <Link
-          prefetch
-          href={routes.movieSingle ? routes.movieSingle : '#'}
-          passHref
-        >
-          <WatchMe href="">Watch Me</WatchMe>
+        <Link to={routes.movieSingle ? routes.movieSingle : '#'}>
+          <WatchMe>Watch Me</WatchMe>
         </Link>
       </Carousel.Caption>
     </Carousel.Item>
@@ -115,7 +111,11 @@ function renderIndicators(movies, setCurrentSlide) {
         <div className="row">
           {movies.map((movie, idx) => (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <div className="col col-md-4" onClick={() => setCurrentSlide(idx)}>
+            <div
+              key={movie.id}
+              className="col col-md-4"
+              onClick={() => setCurrentSlide(idx)}
+            >
               <CarouselIndicatorItem>
                 <img
                   src={process.env.IMAGE_THUMB_HOSTING + movie.backdrop_path}
@@ -136,15 +136,27 @@ function renderIndicators(movies, setCurrentSlide) {
 
 export function RenderedHeader({ movies }) {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(null);
 
   if (!movies) return '';
 
   const featuredMovies = movies.slice(0, 3);
 
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+    setDirection(e.direction);
+  };
+
   return (
     <Header>
       <div style={{ position: 'relative' }}>
-        <Carousel controls={false} indicators={false} activeIndex={index}>
+        <Carousel
+          controls={false}
+          indicators={false}
+          direction={direction}
+          onSelect={handleSelect}
+          activeIndex={index}
+        >
           {renderMovies(featuredMovies)}
         </Carousel>
         {renderIndicators(featuredMovies, setIndex)}

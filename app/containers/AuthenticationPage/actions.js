@@ -13,7 +13,7 @@ export function loginAction(payload) {
   };
 }
 
-export function loginSuccess(payload){
+export function loginSuccess(payload) {
   return {
     type: LOGIN_SUCCESS,
     payload,

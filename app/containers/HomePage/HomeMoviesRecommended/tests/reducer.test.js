@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import registerPageReducer from '../reducer';
+import homeMoviesRecommendedReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('registerPageReducer', () => {
+describe('homeMoviesRecommendedReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,7 @@ describe('registerPageReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(registerPageReducer(undefined, {})).toEqual(expectedResult);
+    expect(homeMoviesRecommendedReducer(undefined, {})).toEqual(expectedResult);
   });
 
   /**

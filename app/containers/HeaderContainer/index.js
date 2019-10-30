@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { RenderedHeader } from 'components/Header';
-import demoBg from 'assets/images/demo-bg.jpg';
 
 import makeSelectHeaderContainer from './selectors';
 import reducer from './reducer';

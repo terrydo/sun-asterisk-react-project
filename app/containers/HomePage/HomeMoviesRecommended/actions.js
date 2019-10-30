@@ -1,14 +1,14 @@
 /*
  *
- * HomeMoviesWithFilters actions
+ * HomeMoviesRecommended actions
  *
  */
 
 import { DEFAULT_ACTION } from './constants';
 
-export function fetchingMoviesSuccessAction(payload) {
+export function defaultAction(movies) {
   return {
     type: DEFAULT_ACTION,
-    payload,
+    payload: movies,
   };
 }

@@ -4,18 +4,16 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import { GET_HOME_MOVIES_SUCCESS } from './constants';
 
-export const initialState = {
-  homeMovies: [],
-};
+export const initialState = {};
 
 /* eslint-disable default-case, no-param-reassign */
 const homeMoviesWithFiltersReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
+  produce(state, draft => {
     switch (action.type) {
-      case DEFAULT_ACTION:
-        state.homeMovies = action.payload;
+      case GET_HOME_MOVIES_SUCCESS:
+        draft.homeMovies = action.payload;
         break;
     }
   });

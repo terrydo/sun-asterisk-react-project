@@ -18,7 +18,6 @@ import searchIcon from 'assets/images/icon-search.png';
 import makeSelectHomeMoviesWithFilters from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { fetchingMoviesAction } from './actions';
 
 const FilterWrapper = styled.div`
   background-color: #faf4f4;
@@ -66,9 +65,30 @@ const HomeMovies = styled.div`
 
 const HomeMovie = styled.div``;
 
-const HomeMovieTitle = styled.h3``;
+const HomeMovieTitle = styled.h3`
+  margin-top: 7px;
+  color: ${props => props.theme.color.black};
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+`;
 
-const HomeMovieImage = styled.div``;
+const HomeMovieImageWrap = styled.div`
+  position: relative;
+  display: block;
+  padding-top: 125%;
+  overflow: hidden;
+`;
+
+const HomeMovieImage = styled.img`
+  position: absolute;
+  min-height: 100%;
+  min-width: 100%;
+  left: 0;
+  top: 0;
+`;
 
 const renderHomeMovieList = homeMovies => {
   if (!homeMovies) return '';
@@ -76,17 +96,15 @@ const renderHomeMovieList = homeMovies => {
   return homeMovies.map(homeMovie => (
     <div className="col-12 col-md-4 col-lg-3" key={homeMovie.id}>
       <HomeMovie>
-        <HomeMovieImage>
-          <a href="#">
-            <img
-              src={
-                process.env.IMAGE_THUMB_HOSTING +
-                  homeMovie.poster_path
-              }
-              alt={homeMovie.title}
-            />
-          </a>
-        </HomeMovieImage>
+        <HomeMovieImageWrap as="a" href="#">
+          <HomeMovieImage
+            src={
+              process.env.IMAGE_THUMB_HOSTING +
+                homeMovie.poster_path
+            }
+            alt={homeMovie.title}
+          />
+        </HomeMovieImageWrap>
         <HomeMovieTitle as="a" href="#">
           {homeMovie.title}
         </HomeMovieTitle>
@@ -95,13 +113,13 @@ const renderHomeMovieList = homeMovies => {
   ))
 }
 
-export function HomeMoviesWithFilters({ homeMoviesWithFilters, getHomeMovie }) {
+export function HomeMoviesWithFilters({ homeMoviesWithFilters }) {
   useInjectReducer({ key: 'homeMoviesWithFilters', reducer });
   useInjectSaga({ key: 'homeMoviesWithFilters', saga });
 
-  const { homeMovies } = getHomeMovie();
+  const { homeMovies } = homeMoviesWithFilters;
 
-  homeMovies.length = 4;
+  if (homeMovies) homeMovies.length = 4;
 
   return (
     <>
@@ -126,17 +144,18 @@ export function HomeMoviesWithFilters({ homeMoviesWithFilters, getHomeMovie }) {
   );
 }
 
-HomeMoviesWithFilters.propTypes = {
-  getHomeMovie: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = createStructuredSelector({
   homeMoviesWithFilters: makeSelectHomeMoviesWithFilters(),
 });
 
-function mapDispatchToProps(dispatch) {
+
+HomeMoviesWithFilters.propTypes = {
+  homeMoviesWithFilters: PropTypes.array,
+};
+
+
+function mapDispatchToProps() {
   return {
-    getHomeMovie: () => dispatch(fetchingMoviesAction()),
   };
 }
 
