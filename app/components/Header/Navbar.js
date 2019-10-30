@@ -11,6 +11,7 @@ const Navbar = styled.nav`
 
 const Ul = styled.ul`
   display: inline-block;
+  margin-left: 40px;
 `;
 
 const Li = styled.li`

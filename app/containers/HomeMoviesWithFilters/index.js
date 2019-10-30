@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  *
  * HomeMoviesWithFilters
@@ -17,6 +18,7 @@ import searchIcon from 'assets/images/icon-search.png';
 import makeSelectHomeMoviesWithFilters from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { fetchingMoviesAction } from './actions';
 
 const FilterWrapper = styled.div`
   background-color: #faf4f4;
@@ -59,22 +61,47 @@ const SearchGroup = styled.input`
 `;
 
 const HomeMovies = styled.div`
-
+  margin-top: 80px;
 `;
 
-const HomeMovie = styled.div`
+const HomeMovie = styled.div``;
 
-`;
+const HomeMovieTitle = styled.h3``;
 
-const HomeMovieTitle = styled.h3`
+const HomeMovieImage = styled.div``;
 
-`;
+const renderHomeMovieList = homeMovies => {
+  if (!homeMovies) return '';
 
-export function HomeMoviesWithFilters({ homeMoviesWithFilters }) {
-  const { homeMovies } = homeMoviesWithFilters;
+  return homeMovies.map(homeMovie => (
+    <div className="col-12 col-md-4 col-lg-3" key={homeMovie.id}>
+      <HomeMovie>
+        <HomeMovieImage>
+          <a href="#">
+            <img
+              src={
+                process.env.IMAGE_THUMB_HOSTING +
+                  homeMovie.poster_path
+              }
+              alt={homeMovie.title}
+            />
+          </a>
+        </HomeMovieImage>
+        <HomeMovieTitle as="a" href="#">
+          {homeMovie.title}
+        </HomeMovieTitle>
+      </HomeMovie>
+    </div>
+  ))
+}
 
+export function HomeMoviesWithFilters({ homeMoviesWithFilters, getHomeMovie }) {
   useInjectReducer({ key: 'homeMoviesWithFilters', reducer });
   useInjectSaga({ key: 'homeMoviesWithFilters', saga });
+
+  const { homeMovies } = getHomeMovie();
+
+  homeMovies.length = 4;
 
   return (
     <>
@@ -91,17 +118,8 @@ export function HomeMoviesWithFilters({ homeMoviesWithFilters }) {
       </FilterWrapper>
 
       <HomeMovies className="container">
-        <div class="row">
-          {homeMovies.map(homeMovie => {
-            return (
-              <div className="col-12 col-md-4 col-lg-3">
-                <HomeMovie>
-                  <HomeMovieImage />
-                  <HomeMovieTitle>{homeMovie.title}</HomeMovieTitle>
-                </HomeMovie>
-              </div>
-            )
-          })}
+        <div className="row">
+          {renderHomeMovieList(homeMovies)}
         </div>
       </HomeMovies>
     </>
@@ -109,7 +127,7 @@ export function HomeMoviesWithFilters({ homeMoviesWithFilters }) {
 }
 
 HomeMoviesWithFilters.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  getHomeMovie: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -118,7 +136,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getHomeMovie: () => dispatch(fetchingMoviesAction()),
   };
 }
 

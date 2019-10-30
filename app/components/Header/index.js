@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -67,7 +68,8 @@ export const CarouselIndicatorMovieName = styled.div`
   color: ${props => props.theme.color.pureWhite};
 `;
 
-const calcHeight = window.innerHeight * 0.625;
+const calcHeight =
+  window.innerHeight * 0.625 > 500 ? window.innerHeight * 0.625 : 500;
 
 function renderMovies(movies) {
   return movies.map(movie => (
@@ -107,7 +109,6 @@ function renderMovies(movies) {
 }
 
 function renderIndicators(movies, setCurrentSlide) {
-  console.log(movies);
   return (
     <CarouselIndicator>
       <div className="container">
