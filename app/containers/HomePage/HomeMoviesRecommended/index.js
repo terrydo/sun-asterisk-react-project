@@ -22,7 +22,7 @@ const HomeMovieRecommended = styled.div`
   margin-top: 120px;
 `;
 
-const HomeMovieRecommendedTitle = styled.h3`
+const HomeMovieRecommendedTitle = styled.h2`
   color: ${props => props.theme.color.main};
   font-weight: 700;
 `;
