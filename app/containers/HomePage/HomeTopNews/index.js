@@ -118,7 +118,7 @@ export function HomeTopNews({ homeTopNews }) {
               <FeaturedNewsDate>{featuredNews.publishDate}</FeaturedNewsDate>
               <FeaturedNewsTitle>
                 <Link
-                  to={generatePath(routes.newsSingle, {
+                  to={generatePath(routes.singleNews, {
                     newsId: featuredNews.id,
                   })}
                 >
@@ -131,7 +131,7 @@ export function HomeTopNews({ homeTopNews }) {
         </div>
         <div className="col-12 col-md-6">
           {relatedNews.map(singleRelatedNews => (
-            <OtherNews>
+            <OtherNews key={singleRelatedNews.id}>
               <OtherNewsImage>
                 <img src={newsThumb} alt={singleRelatedNews.title} />
               </OtherNewsImage>
@@ -139,7 +139,7 @@ export function HomeTopNews({ homeTopNews }) {
                 <OtherNewsDate>{singleRelatedNews.publishDate}</OtherNewsDate>
                 <OtherNewsTitle>
                   <Link
-                    to={generatePath(routes.newsSingle, {
+                    to={generatePath(routes.singleNews, {
                       newsId: singleRelatedNews.id,
                     })}
                   >
@@ -156,7 +156,7 @@ export function HomeTopNews({ homeTopNews }) {
 }
 
 HomeTopNews.propTypes = {
-  homeTopNews: PropTypes.array,
+  homeTopNews: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

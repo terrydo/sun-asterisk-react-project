@@ -6,6 +6,10 @@ img {
   height: auto;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 a {
   color: inherit;
   transition: $default-transition-time color;

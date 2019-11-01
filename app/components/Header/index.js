@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { generatePath } from 'react-router';
 import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
 import routes from 'app-routes';
@@ -92,11 +93,11 @@ function renderMovies(movies) {
         <SlideTitle>{movie.title}</SlideTitle>
         <p>
           {movie.genres.map(genre => (
-            <SlideGenre>{genre.name}</SlideGenre>
+            <SlideGenre key={genre.id}>{genre.name}</SlideGenre>
           ))}
         </p>
 
-        <Link to={routes.movieSingle ? routes.movieSingle : '#'}>
+        <Link to={generatePath(routes.singleMovie, {id: movie.id})}>
           <WatchMe>Watch Me</WatchMe>
         </Link>
       </Carousel.Caption>

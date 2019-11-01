@@ -25,6 +25,7 @@ const HomeMovieRecommended = styled.div`
 const HomeMovieRecommendedTitle = styled.h2`
   color: ${props => props.theme.color.main};
   font-weight: 700;
+  margin-bottom: 70px;
 `;
 
 const HomeMovieRecommendedList = styled.div`
@@ -75,7 +76,7 @@ export function HomeMoviesRecommended({ homeMoviesRecommended }) {
 }
 
 HomeMoviesRecommended.propTypes = {
-  homeMoviesRecommended: PropTypes.array,
+  homeMoviesRecommended: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

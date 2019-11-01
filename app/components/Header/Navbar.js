@@ -4,7 +4,7 @@ import React from 'react';
 import LogoUrl from 'assets/images/logo.png';
 
 const Navbar = styled.nav`
-  position: fixed;
+  position: absolute;
   top: 0;
   color: ${props => props.theme.color.white};
 `;

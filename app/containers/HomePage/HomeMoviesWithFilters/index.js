@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /**
  *
  * HomeMoviesWithFilters
@@ -11,6 +10,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import _ from 'lodash';
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import styled from 'styled-components';
@@ -18,6 +19,7 @@ import searchIcon from 'assets/images/icon-search.png';
 import makeSelectHomeMoviesWithFilters from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { searchMoviesAction } from './actions';
 
 const FilterWrapper = styled.div`
   background-color: #faf4f4;
@@ -80,6 +82,7 @@ const HomeMovieImageWrap = styled.div`
   display: block;
   padding-top: 125%;
   overflow: hidden;
+  border-radius: 15px;
 `;
 
 const HomeMovieImage = styled.img`
@@ -98,10 +101,7 @@ const renderHomeMovieList = homeMovies => {
       <HomeMovie>
         <HomeMovieImageWrap as="a" href="#">
           <HomeMovieImage
-            src={
-              process.env.IMAGE_THUMB_HOSTING +
-                homeMovie.poster_path
-            }
+            src={process.env.IMAGE_THUMB_HOSTING + homeMovie.poster_path}
             alt={homeMovie.title}
           />
         </HomeMovieImageWrap>
@@ -110,14 +110,34 @@ const renderHomeMovieList = homeMovies => {
         </HomeMovieTitle>
       </HomeMovie>
     </div>
-  ))
-}
+  ));
+};
 
-export function HomeMoviesWithFilters({ homeMoviesWithFilters }) {
+export function HomeMoviesWithFilters({
+  homeMoviesWithFilters,
+  searchMoviesDispatch,
+}) {
   useInjectReducer({ key: 'homeMoviesWithFilters', reducer });
   useInjectSaga({ key: 'homeMoviesWithFilters', saga });
 
   const { homeMovies } = homeMoviesWithFilters;
+
+  const searchChange = _.throttle(value => {
+    if (value === '') return;
+
+    const payload = {
+      search: value,
+    };
+
+    searchMoviesDispatch(payload);
+  }, 1000);
+
+  const handleSearchChange = e => {
+    e.persist();
+
+    const value = e.target && e.target.value ? e.target.value : '';
+    searchChange(value);
+  };
 
   if (homeMovies) homeMovies.length = 4;
 
@@ -130,15 +150,16 @@ export function HomeMoviesWithFilters({ homeMoviesWithFilters }) {
             <Filter>Latest</Filter>
             <Filter>Coming Soon</Filter>
             <Filter>Top rated</Filter>
-            <SearchGroup placeholder="Search ..." />
+            <SearchGroup
+              onChange={handleSearchChange}
+              placeholder="Search ..."
+            />
           </FilterGroup>
         </div>
       </FilterWrapper>
 
       <HomeMovies className="container">
-        <div className="row">
-          {renderHomeMovieList(homeMovies)}
-        </div>
+        <div className="row">{renderHomeMovieList(homeMovies)}</div>
       </HomeMovies>
     </>
   );
@@ -148,14 +169,17 @@ const mapStateToProps = createStructuredSelector({
   homeMoviesWithFilters: makeSelectHomeMoviesWithFilters(),
 });
 
-
 HomeMoviesWithFilters.propTypes = {
-  homeMoviesWithFilters: PropTypes.array,
+  homeMoviesWithFilters: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
+  searchMoviesDispatch: PropTypes.func,
 };
 
-
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
   return {
+    searchMoviesDispatch: payload => dispatch(searchMoviesAction(payload)),
   };
 }
 

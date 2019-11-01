@@ -1,5 +1,4 @@
 import { call, takeLatest, put } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
 
 import { requests } from 'services/requests';
 import { LOGIN_ACTION } from './constants';
@@ -20,7 +19,7 @@ function* doLogin({ payload }) {
     alert(response.data.error);
   } else {
     yield put(loginSuccess(response.data.access_token));
-    yield put(push('/'));
+    window.location.reload();
   }
 }
 
