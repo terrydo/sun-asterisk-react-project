@@ -12,16 +12,22 @@ import { compose } from 'redux';
 import styled from 'styled-components';
 
 import { useInjectReducer } from 'utils/injectReducer';
+import { generatePath } from 'react-router';
+import { Link } from 'react-router-dom';
+import routes from 'app-routes';
+
+import newsThumb from 'assets/images/news-thumb.jpg';
 import makeSelectHomeTopNews from './selectors';
 import reducer from './reducer';
 
 const TopNews = styled.section`
-  margin-top: 30px;
+  margin-top: 80px;
 `;
 
 const TopNewsTitle = styled.h2`
   color: ${props => props.theme.color.main};
   font-weight: 700;
+  margin-bottom: 70px;
 `;
 
 const TopNewsWrapper = styled.div`
@@ -60,14 +66,37 @@ const FeaturedNewsExceprt = styled.p`
   line-height: 1.5;
 `;
 
-const OtherNews = styled.article``;
+const OtherNews = styled.article`
+  display: flex;
+  margin-bottom: 20px;
+`;
+
+const OtherNewsImage = styled.div`
+  width: 135px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 9px 7px -6px #aaa;
+`;
+
+const OtherNewsContent = styled.div`
+  width: calc(100% - 250px);
+  padding-left: 20px;
+`;
+
+const OtherNewsDate = styled.time`
+  display: block;
+`;
+
+const OtherNewsTitle = styled.h3`
+  font-size: 18px;
+`;
 
 export function HomeTopNews({ homeTopNews }) {
   const { news } = homeTopNews;
 
   const featuredNews = news[0];
 
-  // const otherNews = [news[1], news[2], news[3], news[4]];
+  const relatedNews = [news[1], news[2], news[3]];
 
   useInjectReducer({ key: 'homeTopNews', reducer });
 
@@ -87,13 +116,39 @@ export function HomeTopNews({ homeTopNews }) {
 
             <FeaturedNewsContent>
               <FeaturedNewsDate>{featuredNews.publishDate}</FeaturedNewsDate>
-              <FeaturedNewsTitle>{featuredNews.title}</FeaturedNewsTitle>
+              <FeaturedNewsTitle>
+                <Link
+                  to={generatePath(routes.newsSingle, {
+                    newsId: featuredNews.id,
+                  })}
+                >
+                  {featuredNews.title}
+                </Link>
+              </FeaturedNewsTitle>
               <FeaturedNewsExceprt>{featuredNews.excerpt}</FeaturedNewsExceprt>
             </FeaturedNewsContent>
           </FeaturedNews>
         </div>
         <div className="col-12 col-md-6">
-          <OtherNews />
+          {relatedNews.map(singleRelatedNews => (
+            <OtherNews>
+              <OtherNewsImage>
+                <img src={newsThumb} alt={singleRelatedNews.title} />
+              </OtherNewsImage>
+              <OtherNewsContent>
+                <OtherNewsDate>{singleRelatedNews.publishDate}</OtherNewsDate>
+                <OtherNewsTitle>
+                  <Link
+                    to={generatePath(routes.newsSingle, {
+                      newsId: singleRelatedNews.id,
+                    })}
+                  >
+                    {singleRelatedNews.title}
+                  </Link>
+                </OtherNewsTitle>
+              </OtherNewsContent>
+            </OtherNews>
+          ))}
         </div>
       </TopNewsWrapper>
     </TopNews>

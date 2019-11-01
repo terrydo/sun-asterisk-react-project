@@ -32,10 +32,13 @@ const HomeMovieRecommendedList = styled.div`
   margin-right: -15px;
 `;
 
-const HomeMovieRecommendedItem = styled.div``;
+const HomeMovieRecommendedItem = styled.div`
+  padding: 0 15px;
+`;
 
 const HomeMovieRecommendedImage = styled.img`
-  padding: 0 15px;
+  border-radius: 12px;
+  box-shadow: 0 12px 8px -5px #666;
 `;
 
 export function HomeMoviesRecommended({ homeMoviesRecommended }) {

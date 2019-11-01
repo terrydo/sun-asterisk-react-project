@@ -3,4 +3,5 @@ export default {
   login: '/login',
   register: '/register',
   movieSingle: '/movie',
+  newsSingle: '/news/:newsId',
 };

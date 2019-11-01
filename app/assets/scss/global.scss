@@ -1,8 +1,19 @@
 @import 'custom-bootstrap';
+@import 'variables';
 
 img {
   max-width: 100%;
   height: auto;
+}
+
+a {
+  color: inherit;
+  transition: $default-transition-time color;
+}
+
+a:hover {
+  color: $c-main;
+  text-decoration: none;
 }
 
 /**
@@ -13,7 +24,7 @@ img {
   }
   .slick-initialized {
     .slick-slide {
-      transition: 0.25s opacity;
+      transition: $default-transition-time opacity;
       opacity: 0.1;
       &.slick-active {
         opacity: 1;
