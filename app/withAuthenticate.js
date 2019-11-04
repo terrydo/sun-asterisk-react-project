@@ -1,12 +1,17 @@
 import AuthenticationPage from 'containers/AuthenticationPage';
 import React from 'react';
 
-export default function withAuthenticate(Component) {
-  const isAuthenticated = localStorage.getItem('ACCESS_TOKEN');
+const withAuthenticate = Wrapper => {
+  const AuthenticatedComponent = props => {
+    const isAuthenticate = localStorage.getItem('ACCESS_TOKEN');
+    if (isAuthenticate) {
+      return <Wrapper {...props} />;
+    }
 
-  if (isAuthenticated) {
-    return () => <Component />;
-  }
+    return <AuthenticationPage />;
+  };
 
-  return () => <AuthenticationPage />;
-}
+  return AuthenticatedComponent;
+};
+
+export default withAuthenticate;

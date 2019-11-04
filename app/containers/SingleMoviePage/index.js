@@ -10,15 +10,24 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import HeaderContainer from 'containers/HeaderContainer';
+import { getSingleMovieAction } from './actions';
+
 import makeSelectSingleMoviePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-export function SingleMoviePage() {
+export function SingleMoviePage({ singleMovie, dispatch, match }) {
+  if (!singleMovie) {
+    // dispatch(getSingleMovieAction({ id: match.params.id }));
+  }
+
+  console.log(singleMovie);
+
   useInjectReducer({ key: 'singleMoviePage', reducer });
   useInjectSaga({ key: 'singleMoviePage', saga });
 
@@ -29,13 +38,15 @@ export function SingleMoviePage() {
         <meta name="description" content="Description of SingleMoviePage" />
       </Helmet>
 
-      <HeaderContainer />
+      <HeaderContainer isWithoutSlider singleMovie={singleMovie} />
     </>
   );
 }
 
 SingleMoviePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  singleMovie: PropTypes.object,
+  match: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -53,4 +64,7 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(SingleMoviePage);
+export default compose(
+  withConnect,
+  withRouter,
+)(SingleMoviePage);

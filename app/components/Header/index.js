@@ -97,12 +97,46 @@ function renderMovies(movies) {
           ))}
         </p>
 
-        <Link to={generatePath(routes.singleMovie, {id: movie.id})}>
+        <Link to={generatePath(routes.singleMovie, { id: movie.id })}>
           <WatchMe>Watch Me</WatchMe>
         </Link>
       </Carousel.Caption>
     </Carousel.Item>
   ));
+}
+
+function renderMovie(movie) {
+  return (
+    <div style={{ height: calcHeight }}>
+      <img
+        className="d-block w-100"
+        src={process.env.IMAGE_HOSTING + movie.backdrop_path}
+        alt="First slide"
+      />
+      <div
+        className="container"
+        style={{
+          left: 0,
+          right: 0,
+          textAlign: 'left',
+          bottom: 'auto',
+          top: '30%',
+        }}
+      >
+        <SlideTitle>{movie.title}</SlideTitle>
+
+        <p>
+          {movie.genres.map(genre => (
+            <SlideGenre key={genre.id}>{genre.name}</SlideGenre>
+          ))}
+        </p>
+
+        <Link to={generatePath(routes.singleMovie, { id: movie.id })}>
+          <WatchMe>Watch Me</WatchMe>
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 function renderIndicators(movies, setCurrentSlide) {
@@ -169,8 +203,25 @@ export function RenderedHeader({ movies }) {
   );
 }
 
+export function RenderedHeaderWithoutSlider({ movie }) {
+  return (
+    <Header>
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
+        {renderMovie(movie)}
+      </div>
+      <div className="container">
+        <RenderedNavbar />
+      </div>
+    </Header>
+  );
+}
+
 RenderedHeader.propTypes = {
   movies: PropTypes.array,
+};
+
+RenderedHeaderWithoutSlider.propTypes = {
+  movie: PropTypes.object,
 };
 
 export default Header;
