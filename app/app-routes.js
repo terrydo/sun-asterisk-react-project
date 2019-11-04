@@ -4,4 +4,5 @@ export default {
   register: '/register',
   singleMovie: '/movie/:id',
   singleNews: '/news/:newsId',
+  buyTicket: '/buyTicket/:movieId',
 };

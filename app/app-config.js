@@ -4,7 +4,7 @@ export default {
       pureWhite: '#fff',
       white: '#fafafa',
       main: '#f80a0c',
-      textGrey: '#454545',
+      textGrey: '#4d4c60',
       black: '#222',
     },
   },

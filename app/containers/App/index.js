@@ -15,6 +15,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import AuthenticationPage from 'containers/AuthenticationPage/Loadable';
 import RegisterPage from 'containers/RegisterPage/Loadable';
 import SingleMoviePage from 'containers/SingleMoviePage/Loadable';
+import BuyTicketPage from 'containers/BuyTicketPage/Loadable';
 
 import routes from 'app-routes';
 
@@ -30,6 +31,7 @@ export default function App() {
         <Route path={routes.login} component={AuthenticationPage} />
         <Route path={routes.register} component={RegisterPage} />
         <Route path={routes.singleMovie} component={SingleMoviePage} />;
+        <Route path={routes.buyTicket} component={BuyTicketPage} />;
         <Route component={NotFoundPage} />
       </Switch>
     </>

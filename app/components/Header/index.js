@@ -125,12 +125,6 @@ function renderMovie(movie) {
       >
         <SlideTitle>{movie.title}</SlideTitle>
 
-        <p>
-          {movie.genres.map(genre => (
-            <SlideGenre key={genre.id}>{genre.name}</SlideGenre>
-          ))}
-        </p>
-
         <Link to={generatePath(routes.singleMovie, { id: movie.id })}>
           <WatchMe>Watch Me</WatchMe>
         </Link>
