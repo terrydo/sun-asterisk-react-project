@@ -210,12 +210,44 @@ export function RenderedHeaderWithoutSlider({ movie }) {
   );
 }
 
+export function RenderedHeaderWithBanner({ banner }) {
+  return (
+    <Header>
+      <div
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          width: '100%',
+          paddingTop: '35%',
+        }}
+      >
+        <div style={{ position: 'absolute', left: 0, top: 0, width: '100%' }}>
+          <img
+            src={banner}
+            alt="Banner"
+            style={{
+              width: '100%',
+            }}
+          />
+        </div>
+      </div>
+      <div className="container">
+        <RenderedNavbar />
+      </div>
+    </Header>
+  );
+}
+
 RenderedHeader.propTypes = {
   movies: PropTypes.array,
 };
 
 RenderedHeaderWithoutSlider.propTypes = {
   movie: PropTypes.object,
+};
+
+RenderedHeaderWithBanner.propTypes = {
+  banner: PropTypes.string,
 };
 
 export default Header;

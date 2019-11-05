@@ -13,26 +13,43 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import withSocket from 'withSocket';
+import HeaderContainer from 'containers/HeaderContainer';
+import FooterContainer from 'containers/FooterContainer';
+import banner from 'assets/images/banner.jpg';
 import makeSelectBuyTicketPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import * as c from './styled-components';
 
-export function BuyTicketPage() {
+export function BuyTicketPage({ socket }) {
   useInjectReducer({ key: 'buyTicketPage', reducer });
   useInjectSaga({ key: 'buyTicketPage', saga });
 
+  socket.on('welcome', response => {
+    console.log(response);
+  });
+
   return (
-    <div>
+    <>
       <Helmet>
         <title>BuyTicketPage</title>
         <meta name="description" content="Description of BuyTicketPage" />
       </Helmet>
-    </div>
+
+      <HeaderContainer banner={banner} />
+
+      <c.Theater>
+        <c.TheaterWall />
+      </c.Theater>
+
+      <FooterContainer />
+    </>
   );
 }
 
 BuyTicketPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  socket: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -50,4 +67,7 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(BuyTicketPage);
+export default compose(
+  withConnect,
+  withSocket,
+)(BuyTicketPage);

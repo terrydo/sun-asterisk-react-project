@@ -4,11 +4,7 @@
  *
  */
 import produce from 'immer';
-import {
-  DEFAULT_ACTION,
-  FETCHING_MOVIES_SUCCESS,
-  FETCHING_SINGLE_MOVIE_SUCCESS,
-} from './constants';
+import { DEFAULT_ACTION, FETCHING_MOVIES_SUCCESS } from './constants';
 
 export const initialState = {};
 
@@ -20,9 +16,6 @@ const headerContainerReducer = (state = initialState, action) =>
         break;
       case FETCHING_MOVIES_SUCCESS:
         draft.movies = action.payload;
-        break;
-      case FETCHING_SINGLE_MOVIE_SUCCESS:
-        draft.singleMovie = action.payload;
         break;
     }
   });

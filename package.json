@@ -96,6 +96,7 @@
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^2.3.0",
     "styled-components": "4.2.0"
   },
   "devDependencies": {

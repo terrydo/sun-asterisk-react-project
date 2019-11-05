@@ -31,13 +31,15 @@ import { ThemeProvider } from 'styled-components';
 // import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
-
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 
 import config from './app-config';
+
+import SocketContext from './socket-context';
+import socket from './app-socket';
 
 // Create redux store with history
 const initialState = {};
@@ -46,15 +48,17 @@ const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <ThemeProvider theme={config.theme}>
-            <App />
-          </ThemeProvider>
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>,
+    <SocketContext.Provider value={socket}>
+      <Provider store={store}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+            <ThemeProvider theme={config.theme}>
+              <App />
+            </ThemeProvider>
+          </ConnectedRouter>
+        </LanguageProvider>
+      </Provider>
+    </SocketContext.Provider>,
     MOUNT_NODE,
   );
 };
