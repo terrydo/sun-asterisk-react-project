@@ -13,7 +13,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import withAuthenticate from 'withAuthenticate';
 import HeaderContainer from 'containers/HeaderContainer';
 import FooterContainer from 'containers/FooterContainer';
 import HomeMoviesWithFilters from './HomeMoviesWithFilters';
@@ -59,7 +58,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(
-  withAuthenticate,
-  withConnect,
-)(HomePage);
+export default compose(withConnect)(HomePage);

@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import LogoUrl from 'assets/images/logo.png';
+import routes from 'app-routes';
 
 const Navbar = styled.nav`
   position: absolute;
@@ -37,13 +38,13 @@ const Logo = styled.img`
 
 export default Navbar;
 
-export function RenderedNavbar() {
+export function RenderedNavbar({ isLogin }) {
   return (
     <Navbar>
       <Logo src={LogoUrl} />
       <Ul className="pl-0">
         <Li>
-          <Link href="#">Home</Link>
+          <Link href={routes.home}>Home</Link>
         </Li>
         <Li>
           <Link href="#">Categories</Link>
@@ -55,8 +56,22 @@ export function RenderedNavbar() {
           <Link href="#">News</Link>
         </Li>
         <Li>
-          <Link href="#">Newsletter</Link>
+          <Link href="#">Gallery</Link>
         </Li>
+
+        {isLogin ? (
+          <>
+            <li>
+              <Link href={routes.profile}>Profile</Link>
+            </li>
+
+            <li>
+              <Link href={routes.logout}>Logout</Link>
+            </li>
+          </>
+        ) : (
+          ''
+        )}
       </Ul>
     </Navbar>
   );

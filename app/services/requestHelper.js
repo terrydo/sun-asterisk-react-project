@@ -7,7 +7,7 @@ axios.defaults.baseURL = apiEndpoint;
 export const requestHelper = ({ method, options }) => axios({
   ...options,
   method,
-  // headers: {
-  //   // Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
-  // },
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+  },
 }).then(res => res).catch(err => err.response);

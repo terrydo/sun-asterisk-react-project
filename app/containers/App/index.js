@@ -13,6 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import AuthenticationPage from 'containers/AuthenticationPage/Loadable';
+import Logout from 'containers/Logout/Loadable';
 import RegisterPage from 'containers/RegisterPage/Loadable';
 import SingleMoviePage from 'containers/SingleMoviePage/Loadable';
 import BuyTicketPage from 'containers/BuyTicketPage/Loadable';
@@ -29,6 +30,7 @@ export default function App() {
       <Switch>
         <Route exact path={routes.home} component={HomePage} />
         <Route path={routes.login} component={AuthenticationPage} />
+        <Route path={routes.logout} component={Logout} />;
         <Route path={routes.register} component={RegisterPage} />
         <Route path={routes.singleMovie} component={SingleMoviePage} />;
         <Route path={routes.buyTicket} component={BuyTicketPage} />;

@@ -40,6 +40,12 @@ export function AuthenticationPage({ dispatchLogin }) {
     dispatchLogin(payload);
   };
 
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      doLogin();
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -58,6 +64,7 @@ export function AuthenticationPage({ dispatchLogin }) {
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               ref={emailInputRef}
+              onKeyDown={handleKeyDown}
             />
             <small id="emailHelp" className="form-text text-muted">
               Enter your email or your account name.
@@ -71,6 +78,7 @@ export function AuthenticationPage({ dispatchLogin }) {
               id="exampleInputPassword1"
               placeholder="Password"
               ref={passwordInputRef}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <div className="form-group form-check">

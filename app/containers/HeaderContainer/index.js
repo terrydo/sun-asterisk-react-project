@@ -16,6 +16,7 @@ import {
 } from 'components/Header';
 
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 export function HeaderContainer({ movies, singleMovie, banner }) {
   if (movies) {
@@ -36,7 +37,19 @@ export function HeaderContainer({ movies, singleMovie, banner }) {
 HeaderContainer.propTypes = {
   movies: PropTypes.array,
   singleMovie: PropTypes.object,
-  banner: PropTypes.element,
+  banner: PropTypes.string,
 };
 
-export default compose(withRouter)(HeaderContainer);
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    state,
+  };
+};
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(
+  withRouter,
+  withConnect,
+)(HeaderContainer);
