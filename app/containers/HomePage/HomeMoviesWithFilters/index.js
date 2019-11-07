@@ -10,16 +10,21 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import _ from 'lodash';
+import { throttle } from 'lodash';
 
+import { Link, generatePath } from 'react-router-dom';
+
+import routes from 'app-routes';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import styled from 'styled-components';
 import searchIcon from 'assets/images/icon-search.png';
+import Button from 'components/Button';
+import defaultPoster from 'assets/images/no-poster.jpg';
 import makeSelectHomeMoviesWithFilters from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { searchMoviesAction } from './actions';
+import { searchMoviesAction, filterMoviesAction } from './actions';
 
 const FilterWrapper = styled.div`
   background-color: #faf4f4;
@@ -41,7 +46,9 @@ const Filter = styled.span`
   }
 `;
 
-const SearchGroup = styled.input`
+const SearchGroup = styled.input.attrs({
+  type: 'text',
+})`
   width: 100%;
   max-width: 450px;
   height: 50px;
@@ -97,16 +104,24 @@ const renderHomeMovieList = homeMovies => {
   if (!homeMovies) return '';
 
   return homeMovies.map(homeMovie => (
-    <div className="col-12 col-md-4 col-lg-3" key={homeMovie.id}>
+    <div className="col-12 col-md-4 col-lg-3 mb-5" key={homeMovie.id}>
       <HomeMovie>
-        <HomeMovieImageWrap as="a" href="#">
-          <HomeMovieImage
-            src={process.env.IMAGE_THUMB_HOSTING + homeMovie.poster_path}
-            alt={homeMovie.title}
-          />
+        <HomeMovieImageWrap>
+          <Link to={generatePath(routes.singleMovie, { id: homeMovie.id })}>
+            <HomeMovieImage
+              src={
+                homeMovie.poster_path
+                  ? process.env.IMAGE_THUMB_HOSTING + homeMovie.poster_path
+                  : defaultPoster
+              }
+              alt={homeMovie.title}
+            />
+          </Link>
         </HomeMovieImageWrap>
-        <HomeMovieTitle as="a" href="#">
-          {homeMovie.title}
+        <HomeMovieTitle as="span">
+          <Link to={generatePath(routes.singleMovie, { id: homeMovie.id })}>
+            {homeMovie.title}
+          </Link>
         </HomeMovieTitle>
       </HomeMovie>
     </div>
@@ -116,21 +131,58 @@ const renderHomeMovieList = homeMovies => {
 export function HomeMoviesWithFilters({
   homeMoviesWithFilters,
   searchMoviesDispatch,
+  filterMoviesDispatch,
 }) {
   useInjectReducer({ key: 'homeMoviesWithFilters', reducer });
   useInjectSaga({ key: 'homeMoviesWithFilters', saga });
 
+  const [page, setPage] = React.useState(1);
+  const [lastAction, setLastAction] = React.useState('filter');
+  const [searchValue, setSearchValue] = React.useState('');
+  const [currentType, setCurrentType] = React.useState(0);
+
   const { homeMovies } = homeMoviesWithFilters;
 
-  const searchChange = _.throttle(value => {
+  const searchChange = throttle(value => {
     if (value === '') return;
+
+    if (lastAction !== 'search') {
+      setPage(1);
+    }
+
+    setSearchValue(value);
+    setLastAction('search');
 
     const payload = {
       search: value,
+      page,
     };
+
+    console.log(payload);
 
     searchMoviesDispatch(payload);
   }, 1000);
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    switch (lastAction) {
+      case 'search':
+        searchMoviesDispatch({
+          search: searchValue,
+          page: nextPage,
+          append: true,
+        });
+        break;
+      default:
+        filterMoviesDispatch({
+          type: currentType,
+          page: nextPage,
+          append: true,
+        });
+        break;
+    }
+  };
 
   const handleSearchChange = e => {
     e.persist();
@@ -139,20 +191,32 @@ export function HomeMoviesWithFilters({
     searchChange(value);
   };
 
-  if (homeMovies) homeMovies.length = 4;
+  const filterMovie = type => {
+    if (lastAction !== 'filter') {
+      setPage(1);
+    }
+
+    setCurrentType(type);
+    setLastAction('filter');
+    filterMoviesDispatch({
+      type,
+      page: 1,
+    });
+  };
 
   return (
     <>
       <FilterWrapper>
         <div className="container">
           <FilterGroup>
-            <Filter>All</Filter>
-            <Filter>Latest</Filter>
-            <Filter>Coming Soon</Filter>
-            <Filter>Top rated</Filter>
+            <Filter onClick={() => filterMovie(0)}>All</Filter>
+            <Filter onClick={() => filterMovie(1)}>Latest</Filter>
+            <Filter onClick={() => filterMovie(2)}>Coming Soon</Filter>
+            <Filter onClick={() => filterMovie(3)}>Top rated</Filter>
             <SearchGroup
               onChange={handleSearchChange}
               placeholder="Search ..."
+              className="form-control"
             />
           </FilterGroup>
         </div>
@@ -160,6 +224,10 @@ export function HomeMoviesWithFilters({
 
       <HomeMovies className="container">
         <div className="row">{renderHomeMovieList(homeMovies)}</div>
+
+        <div className="text-center">
+          <Button onClick={loadMore}>View more</Button>
+        </div>
       </HomeMovies>
     </>
   );
@@ -175,11 +243,13 @@ HomeMoviesWithFilters.propTypes = {
     PropTypes.object,
   ]),
   searchMoviesDispatch: PropTypes.func,
+  filterMoviesDispatch: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     searchMoviesDispatch: payload => dispatch(searchMoviesAction(payload)),
+    filterMoviesDispatch: payload => dispatch(filterMoviesAction(payload)),
   };
 }
 

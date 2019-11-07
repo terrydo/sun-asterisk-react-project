@@ -18,7 +18,8 @@ import reducer from './reducer';
 import saga from './saga';
 
 const Footer = styled.footer`
-  padding: 100px 0;
+  padding-top: 100px;
+  padding-bottom: 100px;
 `;
 
 const FooterSignUpLeft = styled.div`

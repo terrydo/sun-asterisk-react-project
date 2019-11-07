@@ -1,7 +1,17 @@
 @import 'bootstrap/bootstrap';
 
-.container {
-  &--pd-left {
+@import 'variables';
+
+.layout-left {
+  .container {
     padding-left: 120px;
   }
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: $c-main;
+  border: none;
+  font-size: 1.5em;
+  border-bottom: 3px solid #666;
 }

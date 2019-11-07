@@ -17,9 +17,13 @@ import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'assets/scss/global.scss';
 
 // Import root app
 import App from 'containers/App';
+
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-oldschool-dark';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -41,6 +45,13 @@ import config from './app-config';
 import SocketContext from './socket-context';
 import socket from './app-socket';
 
+const alertOptions = {
+  position: positions.TOP_RIGHT,
+  timeout: 5000,
+  offset: '30px',
+  transition: transitions.SCALE,
+};
+
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
@@ -53,7 +64,9 @@ const render = messages => {
         <LanguageProvider messages={messages}>
           <ConnectedRouter history={history}>
             <ThemeProvider theme={config.theme}>
-              <App />
+              <AlertProvider template={AlertTemplate} {...alertOptions}>
+                <App />
+              </AlertProvider>
             </ThemeProvider>
           </ConnectedRouter>
         </LanguageProvider>

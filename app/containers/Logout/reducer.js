@@ -14,6 +14,7 @@ const logoutReducer = (state = initialState, action) =>
     switch (action.type) {
       case LOGOUT:
         localStorage.removeItem('ACCESS_TOKEN');
+        window.location.href = '/';
         break;
     }
   });

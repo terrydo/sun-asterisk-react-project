@@ -17,12 +17,8 @@ import Logout from 'containers/Logout/Loadable';
 import RegisterPage from 'containers/RegisterPage/Loadable';
 import SingleMoviePage from 'containers/SingleMoviePage/Loadable';
 import BuyTicketPage from 'containers/BuyTicketPage/Loadable';
-
+import ProfilePage from 'containers/ProfilePage/Loadable';
 import routes from 'app-routes';
-
-// eslint-disable-next-line no-unused-vars
-import GlobalStyle from 'assets/scss/global.scss';
-// eslint-enable-next-line no-unused-vars
 
 export default function App() {
   return (
@@ -31,6 +27,7 @@ export default function App() {
         <Route exact path={routes.home} component={HomePage} />
         <Route path={routes.login} component={AuthenticationPage} />
         <Route path={routes.logout} component={Logout} />;
+        <Route path={routes.profile} component={ProfilePage} />;
         <Route path={routes.register} component={RegisterPage} />
         <Route path={routes.singleMovie} component={SingleMoviePage} />;
         <Route path={routes.buyTicket} component={BuyTicketPage} />;

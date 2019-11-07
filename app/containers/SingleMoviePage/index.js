@@ -16,6 +16,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import HeaderContainer from 'containers/HeaderContainer';
+import FooterContainer from 'containers/FooterContainer';
+import HomeRecommendedMovies from 'containers/HomePage/HomeMoviesRecommended';
 import routes from 'app-routes';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
@@ -44,72 +46,85 @@ export function SingleMoviePage({ singleMoviePage, dispatch, match }) {
         <meta name="description" content="Description of SingleMoviePage" />
       </Helmet>
 
-      <HeaderContainer isWithoutSlider singleMovie={singleMovie} />
+      <div className="layout-left">
+        <HeaderContainer isWithoutSlider singleMovie={singleMovie} />
 
-      <c.SingleMoviePage className="container container--pd-left">
-        <div className="row">
-          <c.SingleMovieMain className="col-12 col-md-8">
-            <div className="row">
-              <div className="col-12 col-md-6">
-                <c.SingleMovieImageWrap>
-                  <c.SingleMovieImage
-                    src={
-                      process.env.IMAGE_THUMB_HOSTING + singleMovie.poster_path
-                    }
-                  />
-                </c.SingleMovieImageWrap>
+        <c.SingleMoviePage className="container">
+          <div className="row">
+            <c.SingleMovieMain className="col-12 col-md-8">
+              <div className="row">
+                <div className="col-12 col-md-6">
+                  <c.SingleMovieImageWrap>
+                    <c.SingleMovieImage
+                      src={
+                        process.env.IMAGE_THUMB_HOSTING +
+                        singleMovie.poster_path
+                      }
+                    />
+                  </c.SingleMovieImageWrap>
+                </div>
+
+                <c.SingleMovieInfo className="col-12 col-md-6">
+                  <c.SingleMovieInfoTitle>
+                    {singleMovie.title}
+                  </c.SingleMovieInfoTitle>
+
+                  <c.SingleMovieInfoLine>
+                    <strong>Release Date: </strong>
+                    {singleMovie.release_date}
+                  </c.SingleMovieInfoLine>
+
+                  <c.SingleMovieInfoLine>
+                    <strong>Categories: </strong>
+                    Action, Adventure, Fantasy
+                  </c.SingleMovieInfoLine>
+
+                  <c.SingleMovieInfoLine>
+                    <strong>Director: </strong>
+                    David Ayer
+                  </c.SingleMovieInfoLine>
+
+                  <c.SingleMovieInfoLine>
+                    <strong>Actors: </strong>
+                    John Doe, John Smith, John Cena
+                  </c.SingleMovieInfoLine>
+
+                  <c.SingleMovieInfoLine>
+                    <strong>Language: </strong>
+                    {singleMovie.original_language === 'en'
+                      ? 'English'
+                      : 'Unknown'}
+                  </c.SingleMovieInfoLine>
+                </c.SingleMovieInfo>
               </div>
+              <c.SingleMovieSummaryTitle>
+                Plot Summary
+              </c.SingleMovieSummaryTitle>
+              <c.SingleMovieSummary>
+                {singleMovie.overview}
+              </c.SingleMovieSummary>
 
-              <c.SingleMovieInfo className="col-12 col-md-6">
-                <c.SingleMovieInfoTitle>
-                  {singleMovie.title}
-                </c.SingleMovieInfoTitle>
+              <Tabs defaultActiveKey="home">
+                <Tab eventKey="home" title="Today">
+                  <c.TabContent>
+                    <Link
+                      to={generatePath(routes.buyTicket, {
+                        movieId: singleMovie.id,
+                      })}
+                    >
+                      <c.BuyTicket>12:00 PM</c.BuyTicket>
+                    </Link>
+                  </c.TabContent>
+                </Tab>
+              </Tabs>
+            </c.SingleMovieMain>
+          </div>
+        </c.SingleMoviePage>
 
-                <c.SingleMovieInfoLine>
-                  <strong>Release Date: </strong>
-                  {singleMovie.release_date}
-                </c.SingleMovieInfoLine>
+        <HomeRecommendedMovies />
 
-                <c.SingleMovieInfoLine>
-                  <strong>Categories: </strong>
-                  Action, Adventure, Fantasy
-                </c.SingleMovieInfoLine>
-
-                <c.SingleMovieInfoLine>
-                  <strong>Director: </strong>
-                  David Ayer
-                </c.SingleMovieInfoLine>
-
-                <c.SingleMovieInfoLine>
-                  <strong>Actors: </strong>
-                  John Doe, John Smith, John Cena
-                </c.SingleMovieInfoLine>
-
-                <c.SingleMovieInfoLine>
-                  <strong>Language: </strong>
-                  {singleMovie.original_language === 'en'
-                    ? 'English'
-                    : 'Unknown'}
-                </c.SingleMovieInfoLine>
-              </c.SingleMovieInfo>
-            </div>
-            <c.SingleMovieSummaryTitle>Plot Summary</c.SingleMovieSummaryTitle>
-            <c.SingleMovieSummary>{singleMovie.overview}</c.SingleMovieSummary>
-
-            <Tabs defaultActiveKey="home">
-              <Tab eventKey="home" title="Home">
-                <Link
-                  to={generatePath(routes.buyTicket, {
-                    movieId: singleMovie.id,
-                  })}
-                >
-                  <c.BuyTicket>12:00</c.BuyTicket>
-                </Link>
-              </Tab>
-            </Tabs>
-          </c.SingleMovieMain>
-        </div>
-      </c.SingleMoviePage>
+        <FooterContainer />
+      </div>
     </>
   );
 }

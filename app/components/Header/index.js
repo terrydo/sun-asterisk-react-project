@@ -6,6 +6,7 @@ import { generatePath } from 'react-router';
 import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
 import routes from 'app-routes';
+import Button from 'components/Button';
 import { RenderedNavbar } from './Navbar';
 
 export const Header = styled.header`
@@ -34,19 +35,6 @@ export const SlideGenre = styled.small`
   font-size: 18px;
   letter-spacing: 1.5px;
   margin-right: 20px;
-`;
-
-export const WatchMe = styled.span`
-  margin-top: 15px;
-  display: inline-block;
-  padding: 8px 26px;
-  border-radius: 30px;
-  background-color: ${props => props.theme.color.main};
-  color: ${props => props.theme.color.white};
-  &:hover {
-    color: ${props => props.theme.color.main};
-    background-color: ${props => props.theme.color.white};
-  }
 `;
 
 export const CarouselIndicator = styled.div`
@@ -98,7 +86,7 @@ function renderMovies(movies) {
         </p>
 
         <Link to={generatePath(routes.singleMovie, { id: movie.id })}>
-          <WatchMe>Watch Me</WatchMe>
+          <Button>Watch Me</Button>
         </Link>
       </Carousel.Caption>
     </Carousel.Item>
@@ -126,7 +114,7 @@ function renderMovie(movie) {
         <SlideTitle>{movie.title}</SlideTitle>
 
         <Link to={generatePath(routes.singleMovie, { id: movie.id })}>
-          <WatchMe>Watch Me</WatchMe>
+          <Button>Watch Me</Button>
         </Link>
       </div>
     </div>
@@ -218,7 +206,7 @@ export function RenderedHeaderWithBanner({ banner, isLogin }) {
           position: 'relative',
           overflow: 'hidden',
           width: '100%',
-          paddingTop: '35%',
+          paddingTop: '20%',
         }}
       >
         <div style={{ position: 'absolute', left: 0, top: 0, width: '100%' }}>

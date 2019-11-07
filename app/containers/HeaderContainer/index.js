@@ -19,7 +19,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 export function HeaderContainer({ movies, singleMovie, banner }) {
-  const isLogin = !!localStorage.getItem('ACCESS_TOKEN');
+  const token = localStorage.getItem('ACCESS_TOKEN');
+  // eslint-disable-next-line no-unneeded-ternary
+  const isLogin = token !== null ? true : false;
 
   if (movies) {
     return <RenderedHeader movies={movies} isLogin={isLogin} />;

@@ -46,16 +46,19 @@ export const SingleMovieSummary = styled.p`
   line-height: 1.5;
 `;
 
+export const TabContent = styled.div`
+  margin-top: 25px;
+`;
+
 export const BuyTicket = styled.span`
   display: inline-block;
-  padding: 6px 25px;
+  padding: 4px 40px;
   border: none;
   cursor: pointer;
-  border-radius: 20px;
-  background: ${p => p.theme.color.main};
-  color: ${p => p.theme.color.white};
+  color: #333;
+  background-color: #e5e5e5;
+  transition: 0.5s background-color;
   &:hover {
-    color: ${p => p.theme.color.main};
-    background: ${p => p.theme.color.white};
+    background-color: #cccccc;
   }
 `;

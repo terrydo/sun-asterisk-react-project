@@ -11,14 +11,12 @@ import { compose } from 'redux';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { logoutAction } from 'containers/Logout/actions';
-import { push } from 'react-router-redux';
 import makeSelectLogout from './selectors';
 import reducer from './reducer';
 
 export function Logout({ dispatch }) {
   useInjectReducer({ key: 'logout', reducer });
   dispatch(logoutAction());
-  dispatch(push('/'));
   return '';
 }
 
