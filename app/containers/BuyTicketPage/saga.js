@@ -1,6 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { requests } from 'services/requests';
-import { getSeatSuccessAction } from './actions';
+import {
+  getSeatSuccessAction,
+  setSelectingSeatAction,
+  getUserSuccessAction,
+} from './actions';
 import { GET_SEAT } from './constants';
 
 const getSeat = payload => {
@@ -13,10 +17,22 @@ const getSeat = payload => {
   });
 };
 
+const getUser = () =>
+  requests.get({
+    url: `/user`,
+  });
+
 function* doGetSeat({ payload }) {
   const seat = yield call(getSeat, payload);
 
-  yield put(getSeatSuccessAction(JSON.parse(seat.data.available_seat)));
+  const availableSeat = JSON.parse(seat.data.available_seat);
+
+  yield put(getSeatSuccessAction(availableSeat));
+  yield put(setSelectingSeatAction(availableSeat));
+
+  const user = yield call(getUser);
+
+  yield put(getUserSuccessAction(user.data));
 }
 
 // Individual exports for testing

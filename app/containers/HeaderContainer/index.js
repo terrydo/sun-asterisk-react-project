@@ -19,16 +19,20 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 export function HeaderContainer({ movies, singleMovie, banner }) {
+  const isLogin = !!localStorage.getItem('ACCESS_TOKEN');
+
   if (movies) {
-    return <RenderedHeader movies={movies} />;
+    return <RenderedHeader movies={movies} isLogin={isLogin} />;
   }
 
   if (singleMovie) {
-    return <RenderedHeaderWithoutSlider movie={singleMovie} />;
+    return (
+      <RenderedHeaderWithoutSlider movie={singleMovie} isLogin={isLogin} />
+    );
   }
 
   if (banner) {
-    return <RenderedHeaderWithBanner banner={banner} />;
+    return <RenderedHeaderWithBanner banner={banner} isLogin={isLogin} />;
   }
 
   return '';
@@ -40,12 +44,9 @@ HeaderContainer.propTypes = {
   banner: PropTypes.string,
 };
 
-const mapStateToProps = state => {
-  console.log(state);
-  return {
-    state,
-  };
-};
+const mapStateToProps = state => ({
+  state,
+});
 
 const withConnect = connect(mapStateToProps);
 

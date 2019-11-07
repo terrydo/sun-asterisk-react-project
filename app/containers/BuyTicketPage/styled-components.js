@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import wall from 'assets/images/ic-screen.png';
 import unselectedSeat from 'assets/images/seat-unselect-normal.png';
 import selectedSeat from 'assets/images/seat-select-normal.png';
+import selectingSeat from 'assets/images/seat-selecting.png';
+import otherSelectingSeat from 'assets/images/seat-other-selecting.png';
+
 export const Theater = styled.div`
   width: 600px;
   position: relative;
@@ -26,6 +29,7 @@ export const Seat = styled.span`
   line-height: 35px;
   text-indent: -12px;
   color: ${p => p.theme.color.white};
+  user-select: none;
   &:before {
     content: '';
     position: absolute;
@@ -37,6 +41,22 @@ export const Seat = styled.span`
     background-size: contain;
     z-index: -1;
   }
+
+  ${({ selecting }) =>
+    selecting &&
+    `
+      &:before {
+        background-image: url(${selectingSeat});
+      }
+  `};
+
+  ${({ otherSelecting }) =>
+    otherSelecting &&
+    `
+      &:before {
+        background-image: url(${otherSelectingSeat});
+      }
+  `};
 `;
 
 export const SelectedSeat = styled(Seat)`

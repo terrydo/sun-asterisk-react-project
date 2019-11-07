@@ -163,7 +163,7 @@ function renderIndicators(movies, setCurrentSlide) {
   );
 }
 
-export function RenderedHeader({ movies }) {
+export function RenderedHeader({ movies, isLogin }) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(null);
 
@@ -191,26 +191,26 @@ export function RenderedHeader({ movies }) {
         {renderIndicators(featuredMovies, setIndex)}
       </div>
       <div className="container">
-        <RenderedNavbar />
+        <RenderedNavbar isLogin={isLogin} />
       </div>
     </Header>
   );
 }
 
-export function RenderedHeaderWithoutSlider({ movie }) {
+export function RenderedHeaderWithoutSlider({ movie, isLogin }) {
   return (
     <Header>
       <div style={{ position: 'relative', overflow: 'hidden' }}>
         {renderMovie(movie)}
       </div>
       <div className="container">
-        <RenderedNavbar />
+        <RenderedNavbar isLogin={isLogin} />
       </div>
     </Header>
   );
 }
 
-export function RenderedHeaderWithBanner({ banner }) {
+export function RenderedHeaderWithBanner({ banner, isLogin }) {
   return (
     <Header>
       <div
@@ -232,7 +232,7 @@ export function RenderedHeaderWithBanner({ banner }) {
         </div>
       </div>
       <div className="container">
-        <RenderedNavbar />
+        <RenderedNavbar isLogin={isLogin} />
       </div>
     </Header>
   );
@@ -240,14 +240,17 @@ export function RenderedHeaderWithBanner({ banner }) {
 
 RenderedHeader.propTypes = {
   movies: PropTypes.array,
+  isLogin: PropTypes.bool,
 };
 
 RenderedHeaderWithoutSlider.propTypes = {
   movie: PropTypes.object,
+  isLogin: PropTypes.bool,
 };
 
 RenderedHeaderWithBanner.propTypes = {
   banner: PropTypes.string,
+  isLogin: PropTypes.bool,
 };
 
 export default Header;

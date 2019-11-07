@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import React from 'react';
 import LogoUrl from 'assets/images/logo.png';
 import routes from 'app-routes';
+import PropTypes from 'prop-types';
 
 const Navbar = styled.nav`
   position: absolute;
@@ -61,18 +62,24 @@ export function RenderedNavbar({ isLogin }) {
 
         {isLogin ? (
           <>
-            <li>
+            <Li>
               <Link href={routes.profile}>Profile</Link>
-            </li>
+            </Li>
 
-            <li>
+            <Li>
               <Link href={routes.logout}>Logout</Link>
-            </li>
+            </Li>
           </>
         ) : (
-          ''
+          <Li>
+            <Link href={routes.login}>Login</Link>
+          </Li>
         )}
       </Ul>
     </Navbar>
   );
 }
+
+RenderedNavbar.propTypes = {
+  isLogin: PropTypes.bool,
+};
